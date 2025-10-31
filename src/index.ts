@@ -1,87 +1,43 @@
-    
-    
-    import express, { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { testConnection } from "./db/index.js";
 import authRoutes from "./routes/authRoutes.js";
 
+// Load environment variables
 dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
-app.get("/", (req: Request, res: Response) =>
-  res.send("Auth API running ")
+// ✅ Configure CORS to work for both local and Render frontend
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // local frontend
+      "https://auth-frontend-ten-nu.vercel.app" // replace when deployed
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
 );
+
 app.use("/api/auth", authRoutes);
 
-app.listen(port, async () => {
-  console.log(`Server running on http://localhost:${port}`);
-  await testConnection();
+
+// ✅ Parse JSON requests
+app.use(express.json());
+
+// ✅ Basic health route
+app.get("/", (req: Request, res: Response) => {
+  res.send("✅ Auth API running successfully!");
 });
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // // src/index.ts
-    // import express, { Request, Response } from 'express';
+// ✅ Authentication routes
+app.use("/api/auth", authRoutes);
 
-    // const app = express();
-    // const port = process.env.PORT || 3000;
-
-    // app.get('/', (req: Request, res: Response) => {
-    //   res.send('Hello TypeScript with Express!!!!');
-    // });
-
-    // app.listen(port, () => {
-    //   console.log(`Server running on http://localhost:${port}`);
-    // });
+// ✅ Start server and test DB connection
+app.listen(port, async () => {
+  console.log(`🚀 Server running on http://localhost:${port}`);
+  await testConnection();
+});
