@@ -19,15 +19,21 @@ app.use(
   })
 );
 
-// ✅ Parse incoming JSON (this is the key line)
+// ✅ Parse incoming JSON
 app.use(express.json());
 
-// ✅ Parse URL-encoded form data (optional but good)
+// ✅ Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ Use your routes
 app.use("/api/auth", authRoutes);
 
+// ✅ Add a root route for testing
+app.get("/", (req: Request, res: Response) => {
+  res.send("✅ Auth API is running successfully!");
+});
+
+// ✅ Start server
 app.listen(process.env.PORT || 3000, () => {
   console.log(`🚀 Server running on port ${process.env.PORT || 3000}`);
 });
