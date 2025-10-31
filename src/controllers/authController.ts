@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
-import { db } from "../db/index.js";
-import { users } from "../db/schema.js";
+import { db } from "../db/index";
+import { users } from "../db/schema";
 import { eq } from "drizzle-orm";
-import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
 
 export const register = async (req: Request, res: Response) => {
   try {

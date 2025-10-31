@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { testConnection } from "./db/index.js";
-import authRoutes from "./routes/authRoutes.js";
+import { testConnection } from "./db/index";
+import authRoutes from "./routes/authRoutes";
+
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ app.use(express.json());
 
 // ✅ Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
+testConnection();
+
 
 // ✅ Use your routes
 app.use("/api/auth", authRoutes);

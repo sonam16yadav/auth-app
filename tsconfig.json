@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",              // Upgrade to modern ES for Drizzle compatibility
-    "module": "ESNext",              // Use ES modules
+    "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
