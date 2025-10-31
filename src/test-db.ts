@@ -1,3 +1,3 @@
-import { testConnection } from './db/index';
+import { testConnection } from './db/index.js';
 
 testConnection();
