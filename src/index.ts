@@ -4,40 +4,30 @@ import cors from "cors";
 import { testConnection } from "./db/index.js";
 import authRoutes from "./routes/authRoutes.js";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-// ✅ Configure CORS to work for both local and Render frontend
+// ✅ Allow cross-origin requests
 app.use(
   cors({
     origin: [
       "http://localhost:5173", // local frontend
-      "https://auth-frontend-ten-nu.vercel.app" // replace when deployed
+      "https://auth-frontend-ten-nu.vercel.app", // your Vercel frontend
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
-app.use("/api/auth", authRoutes);
-
-
-// ✅ Parse JSON requests
+// ✅ Parse incoming JSON (this is the key line)
 app.use(express.json());
 
-// ✅ Basic health route
-app.get("/", (req: Request, res: Response) => {
-  res.send("✅ Auth API running successfully!");
-});
+// ✅ Parse URL-encoded form data (optional but good)
+app.use(express.urlencoded({ extended: true }));
 
-// ✅ Authentication routes
+// ✅ Use your routes
 app.use("/api/auth", authRoutes);
 
-// ✅ Start server and test DB connection
-app.listen(port, async () => {
-  console.log(`🚀 Server running on http://localhost:${port}`);
-  await testConnection();
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`🚀 Server running on port ${process.env.PORT || 3000}`);
 });
